@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "72032166837",
+    "project_id": "u3-p3-10a28",
+    "storage_bucket": "u3-p3-10a28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72032166837:android:32c997c32747604cacaffc",
+        "android_client_info": {
+          "package_name": "mx.tecnm.tepic.u3_p3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72032166837-ha4gk2qnvcfskplrvrfo7fa4spagbetd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOo04pH2znqlUjbmnExh-jNRqiZrZtL38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72032166837-ha4gk2qnvcfskplrvrfo7fa4spagbetd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

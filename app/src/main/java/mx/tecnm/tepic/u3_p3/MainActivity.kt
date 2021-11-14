@@ -12,7 +12,7 @@ import mx.tecnm.tepic.u3_p3.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     var listaID = ArrayList<String>()
-    var base = BaseDatos(this, "agenda", null, 1)
+    var base = BaseDatos(this, "NOTAS", null, 1)
     //FIREBASE
     var baseRemota = FirebaseFirestore.getInstance()
     var datosRemotos = ArrayList<String>()
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         b = ActivityMainBinding.inflate(layoutInflater)
         setContentView(b.root)
         b.btnInsertar.setOnClickListener {
-            var evento = evento(
+            var Notas = Notas(
                 b.editText1.text.toString(),
                 b.editText2.text.toString(),
                 b.editText3.text.toString(),
@@ -30,9 +30,7 @@ class MainActivity : AppCompatActivity() {
                 this
             )
 
-            var res = evento.insertar()
-
-            if(res == true) {
+            if(Notas.insertar()) {
                 mensaje("La información se ha guardado")
                 b.editText1.setText("")
                 b.editText2.setText("")
@@ -52,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun cargaInformacion(){
         try {
-            var c = evento("","","","",this)
+            var c = Notas("","","","",this)
             var datos = c.recuperarDatos()
 
             var tamaño = datos.size-1
@@ -60,10 +58,10 @@ class MainActivity : AppCompatActivity() {
 
             listaID = ArrayList()
             (0..tamaño).forEach {
-                var evento = datos[it]
-                var item = evento.lugar+"\n"+evento.hora+"\n"+evento.fecha+"\n"+evento.descripcion
+                var Notas = datos[it]
+                var item = Notas.titulo+"\n"+Notas.hora+"\n"+Notas.fecha+"\n"+Notas.contenido
                 v[it] = item
-                listaID.add(evento.id.toString())
+                listaID.add(Notas.id.toString())
             }
 
             b.lista.adapter = ArrayAdapter(this, R.layout.simple_list_item_1,v)
@@ -85,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun sincronizar() {
         datosRemotos.clear()
-        baseRemota.collection("agenda")
+        baseRemota.collection("Notas")
             .addSnapshotListener {querySnapshot, firebaseFirestoreException ->
                 if(firebaseFirestoreException !=null) {
                     mensaje("No se pudo conectar con la nube")
@@ -102,15 +100,15 @@ class MainActivity : AppCompatActivity() {
 
                 try {
                     var c = base.readableDatabase
-                    var res = c.query("AGENDA", arrayOf("*"),null,null,null,null,null)
+                    var res = c.query("NOTAS", arrayOf("*"),null,null,null,null,null)
 
                     if(res.moveToFirst())
                     {
                         do {
                             if(datosRemotos.contains(res.getString(0))) {
-                                baseRemota.collection("agenda")
+                                baseRemota.collection("Notas")
                                     .document(res!!.getString(0))
-                                    .update("LUGAR",res!!.getString(1),"HORA",res!!.getString(2), "FECHA",res!!.getString(3), "DESCRIPCION", res!!.getString(4))
+                                    .update("TITULO",res!!.getString(1),"HORA",res!!.getString(2), "FECHA",res!!.getString(3), "CONTENIDO", res!!.getString(4))
                                     .addOnFailureListener {
                                         AlertDialog.Builder(this)
                                             .setTitle("ERROR")
@@ -120,13 +118,13 @@ class MainActivity : AppCompatActivity() {
                                     }
                             } else {
                                 var datosInsertar = hashMapOf(
-                                    "LUGAR" to res!!.getString(1),
+                                    "TITULO" to res!!.getString(1),
                                     "HORA" to res!!.getString(2),
                                     "FECHA" to res!!.getString(3),
-                                    "DESCRIPCION" to res!!.getString(4)
+                                    "CONTENIDO" to res!!.getString(4)
                                 )
 
-                                baseRemota.collection("agenda").document("${res!!.getString(0)}")
+                                baseRemota.collection("Notas").document("${res!!.getString(0)}")
                                     .set(datosInsertar as Any)
                                     .addOnFailureListener{
                                         mensaje("No se pudo espejear")
@@ -150,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         if(eliminarRemoto.isEmpty()) {
         } else {
             eliminarRemoto.forEach(){
-                baseRemota.collection("agenda")
+                baseRemota.collection("Notas")
                     .document(it)
                     .delete()
                     .addOnFailureListener{
@@ -173,9 +171,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun eliminar(id:String) {
-        var c = evento("","","","",this)
+        var c = Notas("","","","",this)
         if(c.eliminar(id)) {
-            mensaje("Se ha borrado correctamente el evento")
+            mensaje("Se ha borrado correctamente la Nota")
             cargaInformacion()
         } else {
             mensaje("Ha ocurrido un error")
@@ -184,11 +182,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun llamarVentanaActualizar(idLista: String) {
         var ventana = Intent(this,MainActivity2::class.java)
-        var c = evento("","","","",this)
-        var l = c.consultaID(idLista).lugar
+        var c = Notas("","","","",this)
+        var l = c.consultaID(idLista).titulo
         var h = c.consultaID(idLista).hora
         var f = c.consultaID(idLista).fecha
-        var d = c.consultaID(idLista).descripcion
+        var d = c.consultaID(idLista).contenido
 
         ventana.putExtra("id",idLista)
         ventana.putExtra("lugar",l)

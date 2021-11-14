@@ -25,7 +25,7 @@ class MainActivity2 : AppCompatActivity() {
         id = extras.getString("id").toString()
 
         b.btnActualizar.setOnClickListener {
-            var actualizacion = evento(b.editText1.text.toString(), b.editText2.text.toString(), b.editText3.text.toString(),b.editText4.text.toString(),this)
+            var actualizacion = Notas(b.editText1.text.toString(), b.editText2.text.toString(), b.editText3.text.toString(),b.editText4.text.toString(),this)
             actualizacion.id = id.toInt()
 
             if(actualizacion.actualizar()) {

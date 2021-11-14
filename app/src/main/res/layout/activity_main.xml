@@ -13,15 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:textSize="20sp"
-        android:hint="Lugar Del Evento"/>
+        android:hint="TItulo"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/editText2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Hora Del Evento"
+        android:hint="Hora "
         android:inputType="time"
         android:textSize="20sp" />
 
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Fecha Del Evento"
+        android:hint="Fecha"
         android:inputType="date"
         android:textSize="20sp" />
 
@@ -39,8 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:textSize="20sp"
-        android:hint="Descripcion Del Evento"/>
+        android:hint="Contenido"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btnInsertar"
